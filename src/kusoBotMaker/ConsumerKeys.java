@@ -1,8 +1,8 @@
 package kusoBotMaker;
 
 public interface ConsumerKeys {
-	public static final String CONSUMERKEY = "9haaTa5iZB5pbalyxE23hE1a5";
-	public static final String CONSUMERSECRET = "L6aA0PhC1z2tpkws7fkK1bLEkyUKZMpYjwcxEGWfpM9QEBneEZ";
+	public static final String CONSUMERKEY = "NB55pXctA7XqeFu1GbSBhVaO4";
+	public static final String CONSUMERSECRET = "C0rLFpQOMJ1dlXD8Qj7gCMfZ1Z8tNMJUIOSaIoxjXeoZYQG4uW";
 	//public static final String MYSQLDBNAME = "jdbc:mysql://localhost:3306/kbm_db";
 	//public static final String SQLITEDBNAME = "jdbc:sqlite:database_kbm.db";
 }

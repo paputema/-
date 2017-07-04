@@ -183,8 +183,10 @@ public class BotAccount {
 	}
 
 	protected void startBotTwitterStream() {
-
+		if(twitterStream != null)
+		{
 			twitterStream.user();
+		}
 	}
 
 	protected void stoptBotTwitterStream() {
@@ -369,7 +371,8 @@ public class BotAccount {
 					// フォローした相手の使用言語は？
 					String lang = source.getLang();
 					if (lang.contentEquals("ja")) {
-						twitter.createFriendship(source.getId());
+						//自動フォロー無効
+						//twitter.createFriendship(source.getId());
 					} else if (lang.contentEquals("ku") || lang.contentEquals("ms") || lang.contentEquals("sd")
 							|| lang.contentEquals("sa")) {
 						System.out.println(lang.toString());
@@ -575,6 +578,12 @@ public class BotAccount {
 			twitter.destroyFriendship(status.getUser().getId());
 
 		}
+
+		public void onUnfollow(User source, User unfollowedUser) {
+			// TODO 自動生成されたメソッド・スタブ
+			super.onUnfollow(source, unfollowedUser);
+			return;
+		}
 	}
 
 	// 実行状態
@@ -642,18 +651,22 @@ public class BotAccount {
 		this.User_ID = User_ID;
 		this.Enable = Enable;
 		this.setBotAcountStatus(enumBotAcountStatus.BOTSTOP);
-		exec_twitter(get_conf(consumerKey, consumerSecret, Access_Token, Access_Token_Secret));
-		exec_twitterstream(get_conf(consumerKey, consumerSecret, Access_Token, Access_Token_Secret));
 		this.normalPostInterval = normalPostInterval;
 		this.pauseTime = pauseTime;
 		this.replyRt = replyRt;
-		KbmUtil.addbotAccounts(this);
-		try {
-			this.user = twitter.verifyCredentials();
-		} catch (TwitterException e) {
-			// TODO 自動生成された catch ブロック
-			// e.printStackTrace();
-			onTwitterException(e);
+		if(Enable)
+		{
+			exec_twitter(get_conf(consumerKey, consumerSecret, Access_Token, Access_Token_Secret));
+			exec_twitterstream(get_conf(consumerKey, consumerSecret, Access_Token, Access_Token_Secret));
+
+			KbmUtil.addbotAccounts(this);
+			try {
+				this.user = twitter.verifyCredentials();
+			} catch (TwitterException e) {
+				// TODO 自動生成された catch ブロック
+				// e.printStackTrace();
+				onTwitterException(e);
+			}
 		}
 		//
 		this.startBotTwitterStream();
@@ -707,8 +720,11 @@ public class BotAccount {
 
 	// ツイッターを開始
 	void exec_twitter(Configuration conf) {
-		TwitterFactory twitterfactory = new TwitterFactory(conf);
-		twitter = twitterfactory.getInstance();
+		if(Enable)
+		{
+			TwitterFactory twitterfactory = new TwitterFactory(conf);
+			twitter = twitterfactory.getInstance();
+		}
 	}
 
 	// トリームの取得を開始
@@ -808,7 +824,7 @@ public class BotAccount {
 	// アクセストークンをＤＢから取得する
 	static public ResultSet GetAccessToken() {
 		try {
-			String sql = "SELECT * FROM accesstokentable;";
+			String sql = "SELECT * FROM accesstokentable where bot_enable = 1;";
 			Connection con = Access_db.Connect_db();
 			java.sql.PreparedStatement pstat = con.prepareStatement(sql);
 			return pstat.executeQuery();
