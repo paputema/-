@@ -19,7 +19,7 @@ public class Access_db {
 		// 値の取得
 		Properties properties = KbmUtil.properties;
 		Db_Name = properties.getProperty("DBNAME");
-		Db_host = "jdbc:mysql://" + properties.getProperty("DBHOST") + "/" + Db_Name + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		Db_host = "jdbc:mysql://" + properties.getProperty("DBHOST") + "/" + Db_Name + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=JST";
 		User_Name = properties.getProperty("DBUSER");
 		Password = properties.getProperty("DBPASS");
 
