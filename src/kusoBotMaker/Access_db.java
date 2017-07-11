@@ -19,7 +19,7 @@ public class Access_db {
 		// 値の取得
 		Properties properties = KbmUtil.properties;
 		Db_Name = properties.getProperty("DBNAME");
-		Db_host = "jdbc:mysql://" + properties.getProperty("DBHOST") + "/" + Db_Name;
+		Db_host = "jdbc:mysql://" + properties.getProperty("DBHOST") + "/" + Db_Name + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		User_Name = properties.getProperty("DBUSER");
 		Password = properties.getProperty("DBPASS");
 
@@ -34,7 +34,7 @@ public class Access_db {
 		}
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			con = (DriverManager.getConnection(Db_host, User_Name, Password));
 
 			// System.out.println("MySQLに接続できました。");
